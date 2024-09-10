@@ -26,6 +26,15 @@ const client = new MongoClient(uri, {
         // Connect the client to the server	\
         await client.connect();
         const coffeeCollection = client.db('coffeeDB').collection('coffee')
+
+        // get data  from the server
+        app.get('/coffee',async(req,res)=>{
+          const cursor = coffeeCollection.find();
+          const result = await cursor.toArray();
+          res.send(result);
+        })
+
+        // send data to the server
         app.post('/coffee', async(req,res)=>{
         const newCoffee = req.body;
         console.log(newCoffee)
